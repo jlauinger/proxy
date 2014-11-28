@@ -6,7 +6,7 @@ var http = require('http'),
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 /*
- * proxy whitelisting. These must be resolved by /etc/hosts to their and ONLY to their IPv6 addresses.
+ * proxy whitelisting. These must be resolved by /etc/hosts to and ONLY to their IPv6 addresses.
  */
 var targets = [
   'code.lauinger-it.de',

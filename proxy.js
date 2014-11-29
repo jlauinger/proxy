@@ -56,10 +56,15 @@ var callback = function (connection, port, badge) {
   };
 };
 
-http.createServer(callback(http, 80, '[http] ')).listen(80);
-https.createServer({
-  key: fs.readFileSync('/etc/ssl/private/ssl-cert-snakeoil.key'),
-  cert: fs.readFileSync('/etc/ssl/certs/ssl-cert-snakeoil.pem')
-}, callback(https, 443, '[https]')).listen(443);
+http.createServer(callback(http, 80, '[http] ')).listen(80, function() {
+  https.createServer({
+    key: fs.readFileSync('/etc/ssl/private/ssl-cert-snakeoil.key'),
+    cert: fs.readFileSync('/etc/ssl/certs/ssl-cert-snakeoil.pem')
+  }, callback(https, 443, '[https]')).listen(443, function () {
+    process.setgid('www-data');
+    process.setuid('www-data');
+    console.log('Dropping root priviliges by switching to user www-data');
+  });
+});
 
 console.log('Listening on *:80 and *:443');

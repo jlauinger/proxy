@@ -61,9 +61,9 @@ http.createServer(callback(http, 80, '[http] ')).listen(80, function() {
     key: fs.readFileSync('/etc/ssl/private/ssl-cert-snakeoil.key'),
     cert: fs.readFileSync('/etc/ssl/certs/ssl-cert-snakeoil.pem')
   }, callback(https, 443, '[https]')).listen(443, function () {
+    console.log('Dropping root privileges by switching to user www-data');
     process.setgid('www-data');
     process.setuid('www-data');
-    console.log('Dropping root priviliges by switching to user www-data');
   });
 });
 

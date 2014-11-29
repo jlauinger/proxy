@@ -47,16 +47,11 @@ var callback = function (connection, port, badge) {
         res.write('Proxying failed. Message: ' + e.message);
         res.end();
       });
-      if (req.method === 'GET' || req.method === 'HEAD' || req.method === 'OPTIONS') {
+      req.on('data', function(chunk) {
+        proxyReq.write(chunk);
+      }).on('end', function() {
         proxyReq.end();
-      } else {
-        req.on('data', function(chunk) {
-          proxyReq.write(chunk);
-        });
-        req.on('end', function() {
-          proxyReq.end();
-        });
-      }
+      });
     }
   };
 };
